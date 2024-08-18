@@ -8,6 +8,16 @@ public class ImplementacaoFila {
         fila1.insert(2);
         fila1.insert(3);
         fila1.insert(4);
+        fila1.insert(5);
+        
+        fila1.print_queue();
+        
+        fila1.remove();
+        
+        fila1.print_queue();
+        
+        fila1.remove();
+        fila1.remove();
         
         fila1.print_queue();
     } 
