@@ -18,6 +18,7 @@ public class ImplementacaoFila {
         
         fila1.remove();
         fila1.remove();
+        fila1.remove();
         
         fila1.print_queue();
     } 
