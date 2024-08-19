@@ -1,7 +1,7 @@
 package lista;
 
 public class Node {
-    // Aqui tive que utilizar Integer, pois com "int" n√£o √© poss√≠vel definir "information"
+    // Aqui tive que utilizar Integer, pois com "int" n„o È possÌ≠vel definir "information"
     // como "null".
     private Integer information;    
     private Node next;

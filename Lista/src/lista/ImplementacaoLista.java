@@ -13,7 +13,7 @@ public class ImplementacaoLista {
         
         do{
             System.out.println("Digite uma das opções de manipulação da lista:");
-            System.out.println(" 1. Adicionar um elemento na lista; \n 2. Imprimir a lista; \n 3. Excluir um elemento da lista; \n 0. Sair.");
+            System.out.println(" 1. Adicionar um elemento na lista; \n 2. Excluir um elemento da lista; \n 0. Sair.");
             option = teclado.nextInt();
             
             switch(option){
@@ -21,14 +21,15 @@ public class ImplementacaoLista {
                     System.out.println("Digite o valor inteiro a ser inserido na lista: ");
                     new_value = teclado.nextInt();
                     lista.insert(new_value);
-                    break;
-                case 2:
                     lista.print_list();
                     break;
-                case 3:
+
+                case 2:
                     System.out.println("Digite a posição do elemento no qual você deseja remover:");
                     int index = teclado.nextInt();
                     lista.delete_on_list(index);
+                    lista.print_list();
+                    break;
                 default:
                     System.out.println("Digite uma das opções válidas!");
                     break; // Redundância, esta linha é desnecessária

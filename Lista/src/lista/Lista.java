@@ -35,21 +35,26 @@ public class Lista {
     
     // Temos 3 tipos de exclusões: no´início, no meio e no final da lista
     public void delete_on_list(int index){
+        
         Node atual = first;
         int num_nodes = number_elements(); 
         
+        
         if(num_nodes == 0){
+            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             System.out.println("A lista está vazia! Não é possível remover elementos.");
+            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
         }
         
         else if(index > num_nodes){
+            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             System.out.println("Digite uma posição válida, visto que a lista possui: " + num_nodes + " elementos.");
+            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
         }
         
         // Remoção no início da lista
         else if(index == 1){
             first = first.getNext();
-            System.out.println("Elemento da posição " + index + " da lista foi removido com sucesso da lista!");
         }
         
         // Remoção no meio da lista
@@ -63,6 +68,9 @@ public class Lista {
                 if(num_of_node == index){
                     // Definir o "prócimo" do elemento anterior como o o node posteior do atual que será excluído.
                     anterior.setNext(atual.getNext());
+                    // Apesar da IDE alertar que pode haver uma valor nulo em "anterior.setNext()", não haverá, visto que 
+                    // isso só ocorrerá caso o primeiro elemento seja o elemento a ser excluído e isso já é tratado no primeiro
+                    // "if" :).
                 }
                 anterior = atual;
                 atual = atual.getNext();
@@ -80,18 +88,26 @@ public class Lista {
                 num_of_nodes++;
             }
             atual.setNext(null);
-        }           
+        }
     }
     
     public int number_elements(){
         Node atual = first;
         int number_of_nodes = 1;
         
-        while(atual.getNext() != null){
-            atual = atual.getNext();
-            number_of_nodes++;
+        // Verifica se a lista está vazia. Caso esteja retorno o número 0 de elementos.
+        if(isEmpty()){
+            return 0;
+        }else{
+            while(atual.getNext() != null){
+                atual = atual.getNext();
+                number_of_nodes++;
+            }
         }
-        
         return number_of_nodes;
+    }
+    
+    public boolean isEmpty(){
+        return first == null;
     }
 }
