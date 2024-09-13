@@ -2,9 +2,15 @@ package avaliacaora1;
 
 // Classe para armazenar histórico de solicitações de serviço.
 public class Pilha {
-    private No topo;
-    
-    // Verifica se a pilha está vazia.
+    private No topo; // Atributo para representar o último (topo) elemento da pilha.
+    private No primeiro; // Atributo para representar o primeiro elemento da pilha.
+            
+    // Método construtor da pilha.
+    public void Pilha(){
+        this.topo = null;
+    }
+
+// Verifica se a pilha está vazia.
     public boolean isVazia(){
         return topo == null;
     }
@@ -13,11 +19,20 @@ public class Pilha {
         // Cria um novo objeto nó para incluir a solicitação a ser adicionada.
         No novo_no = new No(nova_solicitacao);
         
-        // Define o "proximo" do novo elemento adicionado como o topo atual.
-        novo_no.setProximo(topo);
+        // Verifica se pilha está vazia, caso esteja, insere o primeiro elemento.
+        if(isVazia()){
+            // Define o novo elemento a ser inserido na pilha como primeiro e ultimo.
+            topo = primeiro = novo_no;
+        }else{
+            // Define o "proximo" do atual topo, como o novo elemento (no) a ser inserido na pilha.
+            //ctopo.setProximo(novo_no);
+            
+            novo_no.setProximo(topo);
+            
+            // Define o topo como o novo no a ser inserido.
+            topo = novo_no;
+        }
         
-        // Atualiza a referência para o topo da pilha (último elemento a ser inserido).
-        topo = novo_no;
         System.out.println("Solicitação registrada com sucesso!");
     }
     

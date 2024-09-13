@@ -8,10 +8,11 @@ public abstract class Elemento {
     protected String descricao;
     
     // Método construtor da superclasse.
-    public Elemento(String id, String descricao){
-        this.id = id;
+    public Elemento(String descricao){
         this.descricao = descricao;
     }
+    
+    public abstract String gerarId();
     
     // Assinatura dos métodos que devem ser implementados nas subclasses.
     public abstract void imprimir_dados();
