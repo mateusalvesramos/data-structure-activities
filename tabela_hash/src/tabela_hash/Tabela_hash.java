@@ -3,105 +3,49 @@ package tabela_hash;
 public class Tabela_hash {
 
     public static void main(String[] args) {
-        // Criando tabelas de tamanhos diferentes (10, 100, 1000, 10000 e 100000)
-        Tabela tabela1 = new Tabela(10);
-        Tabela tabela2 = new Tabela(100);
-        Tabela tabela3 = new Tabela(1000);
-        Tabela tabela4 = new Tabela(10000);
-        Tabela tabela5 = new Tabela(100000);
-        
-        // -=-=-=-=-= Teste com a tabela de tamanho 10 -=-=-=-=-=
-        
-        // Com 1 milhões de elementos 
-        tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao(1000000);
-        // tabela1.inserir_dobramento(1000000);
-        
-        // Com 5 milhões de elementos 
-        //tabela1.inserir_modulo(5000000);
-        //tabela1.inserir_multiplicacao(5000000);
-        // tabela1.inserir_dobramento(5000000);
-        
-        // Com 20 milhões de elementos 
-        //tabela1.inserir_modulo(20000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // -=-=-=-=-= Teste com a tabela de tamanho 100 -=-=-=-=-=
-        
-        // Com 1 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // Com 5 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // Com 20 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
+        // Inicializando o escritor de CSV
+        // CSVWriter csvWriter = new CSVWriter("resultados_tabela_hash.csv");
 
-        // -=-=-=-=-= Teste com a tabela de tamanho 1000 -=-=-=-=-=
+        // Definindo tamanhos das tabelas e quantidades de elementos
+        int[] tamanhosTabelas = {500000, 750000, 999999};
+        int[] quantidadesElementos = {1000000, 5000000, 10000000};
         
-        // Com 1 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
+        // Capturando valores para teste de busca
+        int[] valores_buscas = new int[5];
+        Tabela vetor = new Tabela(1);
+        for(int i = 0; i < 5; i++){
+            valores_buscas[i] = vetor.codigo_aleatorio();
+        }
         
-        // Com 5 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // Com 20 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // -=-=-=-=-= Teste com a tabela de tamanho 10000 -=-=-=-=-=
-        
-        // Com 1 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // Com 5 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // Com 20 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // -=-=-=-=-= Teste com a tabela de tamanho 100000 -=-=-=-=-=
-        
-        // Com 1 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // Com 5 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        // Com 20 milhões de elementos 
-        //tabela1.inserir_modulo(1000000);
-        //tabela1.inserir_multiplicacao();
-        // tabela1.inserir_dobramento();
-        
-        
-        
-        tabela1.imprimir_tabela();
-        // tabela2.imprimir_tabela();
-        // tabela3.imprimir_tabela();
-        // tabela4.imprimir_tabela();
-        // tabela5.imprimir_tabela();
+
+        // Para cada tamanho de tabela, executa os testes
+        for (int tamanho : tamanhosTabelas) {
+            for (int qtdeElementos : quantidadesElementos) {
+                
+                // Tabela com função hash por método do módulo
+                Tabela tabelaModulo = new Tabela(tamanho);
+                tabelaModulo.inserir_modulo(qtdeElementos/*, csvWriter*/);
+                for(int i = 0; i < 5; i++){
+                    tabelaModulo.buscar_modulo(valores_buscas[i]);
+                }
+
+                // Tabela com função hash por método da multiplicação
+                Tabela tabelaMultiplicacao = new Tabela(tamanho);
+                tabelaMultiplicacao.inserir_multiplicacao(qtdeElementos/*, csvWriter*/);
+                for(int i = 0; i < 5; i++){
+                    tabelaMultiplicacao.buscar_multiplicacao(valores_buscas[i]);
+                }
+
+                // Tabela com função hash por método de dobramento
+                Tabela tabelaDobramento = new Tabela(tamanho);
+                tabelaDobramento.inserir_dobramento(qtdeElementos/*, csvWriter*/);
+                for(int i = 0; i < 5; i++){
+                    tabelaDobramento.buscar_dobramento(valores_buscas[i]);
+                }
+            }
+        }
+
+        System.out.println("Processo concluído.");
     }
     
 }

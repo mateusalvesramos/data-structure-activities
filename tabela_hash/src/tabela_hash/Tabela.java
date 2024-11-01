@@ -6,8 +6,22 @@ public class Tabela {
     private int tamanho_tabela;
     private int qtde_comparacoes;
     private Registro tabela[];
-    private Random aleatorio = new Random(12345); // Criando um objeto de random e passando a seed
+    private Random aleatorio = new Random(1234); // Criando um objeto de random e passando a seed
     private int colisoes; // Inicializando o contador de colisões
+    
+    // Vetores para armazenar 5 valores eleatórios que foram inseridos, por meio de cada função Hash
+    // Isso será utilizado para realizar a contagem de tempo das buscas
+    private int buscas_modulo[] = new int[5];
+    private int buscas_multiplicacao[] = new int[5];
+    private int buscas_dobramento[] = new int[5];
+    
+    // Inteiros para armazenar o tamanho de cada um dos vetores acima, visto que não possível
+    // utilizar o comando length.
+    // Na verdade estas variáveis armazenam índice do último valor adicionado. No caso de um
+    // vetor preenchido, o valor será 4, índice do último valor inserido.
+    private int length_modulo;
+    private int length_multilplicacao;
+    private int length_dobramento;
     
     // Criação de objeto de FuncoesHash para que possamos chamar as funções Hash
     FuncoesHash funcoes = new FuncoesHash();
@@ -15,6 +29,14 @@ public class Tabela {
     public Tabela(int tamanho_tabela){
         this.tamanho_tabela = tamanho_tabela;
         tabela = new Registro[tamanho_tabela]; // Inicializando a tabela Hash de acordo com o tamanho informado
+    }
+    
+    // Método para realizar a inserção nso vetores de valores aleatórios inseridos para busca
+    public void inserir_vetor(int chave, int vetor[], int length){
+        if(length < 4){
+            vetor[length]= chave;
+            length++;
+        }
     }
     
     // Método para geração de códigos de registros randômicos
@@ -27,10 +49,16 @@ public class Tabela {
     
     // A seguir, um método de inserção para cada função Hash criada acima
     
-    public void inserir_modulo(int qtde_elementos){
+    public void inserir_modulo(int qtde_elementos/*, CSVWriter csvWriter*/){
+        // Iniciando a contagem de tempo
+        long tempoInicio = System.nanoTime();
         for(int i = 0; i < qtde_elementos; i++){
             int chave = codigo_aleatorio();
             int posicao = funcoes.hash_modulo(chave, tamanho_tabela);
+            
+            // Armazenando valores para futuras buscas
+            // inserir_vetor(chave, buscas_modulo, length_modulo);
+            
             if(tabela[posicao] == null){
                 tabela[posicao] = new Registro(chave);
             }else{ // Aqui ocorreu uma colisão
@@ -64,13 +92,28 @@ public class Tabela {
                 }
             }
         }
-        System.out.println(String.format("Tabela de registros, com tamanho %d, preenchida com sucesso a partir da função Hash de resto ou módulo", tamanho_tabela));
+        // Finalizando a contagem de tempo
+        long tempoFim = System.nanoTime();
+        
+        // Calculando o intervalo de tempo e converte para segundos
+        double duracao = (tempoFim - tempoInicio) / 1_000_000_000.0;
+        
+        System.out.println(String.format("Tabela de registros, com tamanho %d, preenchida com sucesso a partir da função Hash de resto ou módulo com %d elementos", tamanho_tabela, qtde_elementos));
         System.out.println("O total de colisões é " + colisoes);
+        System.out.println("Tempo de execução: " + duracao + " segundos");
+        //csvWriter.escreverLinha(tamanho_tabela, qtde_elementos, "Modulo", colisoes, duracao);
+        System.out.println("\n");
     }
     
-    public void inserir_multiplicacao(int qtde_elementos){
+    public void inserir_multiplicacao(int qtde_elementos/*, CSVWriter csvWriter*/){
+        // Iniciando a contagem de tempo
+        long tempoInicio = System.nanoTime();
         for(int i = 0; i < qtde_elementos; i++){
             int chave = codigo_aleatorio();
+            
+            // Armazenando valores para futuras buscas
+            // inserir_vetor(chave, buscas_multiplicacao, length_multilplicacao);
+            
             int posicao = funcoes.hash_multiplicacao(chave, tamanho_tabela);
             if(tabela[posicao] == null){
                 tabela[posicao] = new Registro(chave);
@@ -107,14 +150,29 @@ public class Tabela {
                 }
             }
         }
-        System.out.println(String.format("Tabela de registros, com tamanho %d, preenchida com sucesso a partir da função Hash de multiplição", tamanho_tabela));
+        // Finalizando a contagem de tempo
+        long tempoFim = System.nanoTime();
+        
+        // Calculando o intervalo de tempo e converte para segundos
+        double duracao = (tempoFim - tempoInicio) / 1_000_000_000.0;
+        
+        System.out.println(String.format("Tabela de registros, com tamanho %d, preenchida com sucesso a partir da função Hash de multiplição com %d elementos", tamanho_tabela, qtde_elementos));
         System.out.println("O total de colisões é " + colisoes);
+        System.out.println("Tempo de execução: " + duracao + " segundos");
+        //csvWriter.escreverLinha(tamanho_tabela, qtde_elementos, "Multiplicacao", colisoes, duracao);
+        System.out.println("\n");
     }
     
-    public void inserir_dobramento(int qtde_elementos){
+    public void inserir_dobramento(int qtde_elementos/*, CSVWriter csvWriter*/){
+        // Iniciando a contagem de tempo
+        long tempoInicio = System.nanoTime();
         for(int i = 0; i < qtde_elementos; i++){
             int chave = codigo_aleatorio();
             int posicao = funcoes.hash_dobramento(chave, tamanho_tabela);
+            
+            // Armazenando valores para futuras buscas
+            // inserir_vetor(chave, buscas_dobramento, length_dobramento);
+            
             if(tabela[posicao] == null){
                 tabela[posicao] = new Registro(chave);
             }else{ // Aqui ocorreu uma colisão
@@ -148,41 +206,103 @@ public class Tabela {
                 }
             }
         }
-        System.out.println(String.format("Tabela de registros, com tamanho %d, preenchida com sucesso a partir da função Hash de dobramento", tamanho_tabela));
+        // Finalizando a contagem de tempo
+        long tempoFim = System.nanoTime();
+        
+        // Calculando o intervalo de tempo e converte para segundos
+        double duracao = (tempoFim - tempoInicio) / 1_000_000_000.0;
+        
+        System.out.println(String.format("Tabela de registros, com tamanho %d, preenchida com sucesso a partir da função Hash de dobramento com %d elementos.", tamanho_tabela, qtde_elementos));
         System.out.println("O total de colisões é " + colisoes);
+        System.out.println("Tempo de execução: " + duracao + " segundos");
+        //csvWriter.escreverLinha(tamanho_tabela, qtde_elementos, "Dobramento", colisoes, duracao);
+        System.out.println("\n");
     }
     
     public void buscar_modulo(int chave){
+        qtde_comparacoes = 0; // Resetando a qntde de comparações
+        long inicio = System.nanoTime();
         int posicao = funcoes.hash_modulo(chave, tamanho_tabela);
         Registro encontrado = tabela[posicao];
-        while(encontrado.getCodigo() != chave){
-            encontrado = encontrado.getProximo();
+        
+        while(encontrado != null && encontrado.getCodigo() != chave){
             qtde_comparacoes++;
+            encontrado = encontrado.getProximo();
         }
-        System.out.println("O código do registro encontrado é: " + encontrado.imprimirCodigo());
+        
+        // Convertendo nanosegundos para milisegundos
+        double duracao = (System.nanoTime() - inicio);
+        
+        // Verificando se o item realmente foi encontrado (!= null)
+        if(encontrado != null){
+            System.out.println("O código do registro encontrado é: " + encontrado.imprimirCodigo());
+        }else{
+            System.out.println("Registro com o código " + chave + " não encontrado.");
+        }
+        
         System.out.println("Total de comparações: " + qtde_comparacoes);
+        System.out.println("Tempo de busca (ns): " + duracao);
+        System.out.println("\n");
     }
     
     public void buscar_multiplicacao(int chave){
+        qtde_comparacoes = 0; // Resetando a qntde de comparações
+        long inicio = System.nanoTime();
         int posicao = funcoes.hash_multiplicacao(chave, tamanho_tabela);
         Registro encontrado = tabela[posicao];
-        while(encontrado.getCodigo() != chave){
-            encontrado = encontrado.getProximo();
+        
+        while(encontrado != null && encontrado.getCodigo() != chave){
             qtde_comparacoes++;
+            encontrado = encontrado.getProximo();
         }
-        System.out.println("O código do registro encontrado é: " + encontrado.imprimirCodigo());
+        
+        double duracao = (System.nanoTime() - inicio);
+        
+        // Verificando se o item realmente foi encontrado (!= null)
+        if(encontrado != null){
+            System.out.println("O código do registro encontrado é: " + encontrado.imprimirCodigo());
+        }else{
+            System.out.println("Registro com o código " + chave + " não encontrado.");
+        }
         System.out.println("Total de comparações: " + qtde_comparacoes);
+        System.out.println("Tempo de busca (ns): " + duracao);
+        System.out.println("\n");
     }
     
     public void buscar_dobramento(int chave){
+        qtde_comparacoes = 0; // Resetando a qntde de comparações
+        long inicio = System.nanoTime();
         int posicao = funcoes.hash_dobramento(chave, tamanho_tabela);
         Registro encontrado = tabela[posicao];
-        while(encontrado.getCodigo() != chave){
-            encontrado = encontrado.getProximo();
+        
+        while(encontrado != null && encontrado.getCodigo() != chave){
             qtde_comparacoes++;
+            encontrado = encontrado.getProximo(); 
         }
-        System.out.println("O código do registro encontrado é: " + encontrado.imprimirCodigo());
+        double duracao = (System.nanoTime() - inicio);
+        
+        // Verificando se o item realmente foi encontrado (!= null)
+        if(encontrado != null){
+            System.out.println("O código do registro encontrado é: " + encontrado.imprimirCodigo());
+        }else{
+            System.out.println("Registro com o código " + chave + " não encontrado.");
+        }
+        
         System.out.println("Total de comparações: " + qtde_comparacoes);
+        System.out.println("Tempo de busca (ns): " + duracao);
+        System.out.println("\n");
+    }
+    
+    public int[] getVetorModulo(){
+        return buscas_modulo;
+    }
+    
+    public int[] getVetorMultiplicacao(){
+        return buscas_multiplicacao;
+    }
+    
+    public int[] getVetordobramento(){
+        return buscas_dobramento;
     }
     
     public void imprimir_tabela() {
